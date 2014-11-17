@@ -3,6 +3,7 @@
 ## returns the a character vector with
 ## the name of the hospital that has the
 ## lowest 30-day mortality for the specified outcome
+## to be added in repo
 best <- function(state,disease) {
   setwd("/home/vineethshankar/Rdata")
   outcome <- read.csv("outcome-of-care-measures.csv")
