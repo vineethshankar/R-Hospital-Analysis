@@ -7,11 +7,20 @@
 best <- function(state,disease) {
   setwd("/home/vineethshankar/Rdata")
   outcome <- read.csv("outcome-of-care-measures.csv")
-  if (!(toupper(state) %in% outcome[,7])) {
+## diseases will be in lower case and
+## states are all upper case in the data frame
+  disease <- tolower(disease)
+  state <- toupper(state)
+  if (!(state %in% outcome[,7])) {
     stop("invalid state")
-  } else if (!(tolower(disease) %in% c("heart failure","heart attack", "pneumonia"))) {
+  } else if (!(disease %in% c("heart failure","heart attack", "pneumonia"))) {
       stop("invalid outcome")
   }
-    hosp_disease <- outcome[,c(2,11,17,23)]
-  head(hosp_disease[order(hosp_disease[2]),])
+## Split the data on the basis of states  
+  relevant <- outcome[,c(2,11,17,23)]
+  hosp_by_state <- relevant[relevant$State == state,]
+  cnames <- c("Hospital.Name", "State", "heart attack", "heart failure", "pneumonia")
+  colnames(hosp_by_state) <- cnames
+  hosp_by_state <- hosp_by_state[order(hosp_by_state[,disease]),]
+  as.character(hosp_by_state[[1]][[1]])
 }
