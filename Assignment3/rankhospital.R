@@ -2,7 +2,7 @@
 ## and a ranking to prints the name
 ## of the hospital for that outcome (num)
 ## num > number of hospitals, return NA
-rankhospital <- function(state,disease, num) {
+rankhospital <- function(state,disease, num="best") {
   outcome <- read.csv("outcome-of-care-measures.csv", stringsAsFactors = FALSE)
   disease <- tolower(disease)
   state <- toupper(state)
@@ -24,7 +24,15 @@ rankhospital <- function(state,disease, num) {
     ## ordering by ascending order of mortality rates (1st arg)
     ## breaking ties by hospital name (2nd arg)
     hosp_by_state <- hosp_by_state[order(hosp_by_state[,disease],hosp_by_state[,1]),]
-    
+    if (is.numeric(num) & num > nrow(hosp_by_state)) {
+      return(NA)
+    }
+      else if (num == "best") {
+      num <- 1
+    }
+      else if(num =="worst") {
+        num <- nrow(hosp_by_state)
+    }
     staterank <- cbind(hosp_by_state[,1], Rate = hosp_by_state[,disease], Rank = 1:nrow(hosp_by_state))
     staterank[staterank[,3] == num,1]
 }
