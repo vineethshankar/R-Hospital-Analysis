@@ -1,5 +1,5 @@
 ## rankhospital takes a state, an outcome
-## and a ranking to prints the name
+## and a ranking to print the name
 ## of the hospital for that outcome (num)
 ## num > number of hospitals, return NA
 rankhospital <- function(state,disease, num="best") {
