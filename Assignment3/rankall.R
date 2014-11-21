@@ -15,12 +15,16 @@ rankall <- function(disease, num = "best") {
   cnames <- c("Hospital.Name","State","heart attack","heart failure","pneumonia")
   colnames(relevant) <- cnames
   rank <- function(x) {
-    if (num > length(x[,2])) {
+    if(num =="worst") {
+      num <- length(x[,2])
+    }
+    else if(num == "best") {
+      num <- 1
+    }
+    else if (num > length(x[,2])) {
       return(NA)
     }
-      else {
-        x[order(x[,2]),][num,]
-    }
+    x[order(x[,2],x[,1]),][num,]
   }
 # Method 1: split by state, run a loop through the list, find the hospital of the given rank
 # method 2: create a vector of names of state, for each iteration
